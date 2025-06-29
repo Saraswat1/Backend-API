@@ -1,0 +1,37 @@
+{
+  "name": "doctor-patient-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/main.js",
+  "scripts": {
+    "start": "node dist/main.js",
+    "start:dev": "nest start --watch",
+    "build": "nest build"
+  },
+  "dependencies": {
+    "@nestjs/common": "^X.X.X",
+    "@nestjs/config": "^X.X.X",
+    "@nestjs/core": "^X.X.X",
+    "@nestjs/jwt": "^X.X.X",
+    "@nestjs/passport": "^11.0.5",
+    "@nestjs/platform-express": "^11.1.3",
+    "@nestjs/typeorm": "^X.X.X",
+    "bcrypt": "^X.X.X",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.2",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "reflect-metadata": "^X.X.X",
+    "rxjs": "^X.X.X",
+    "sqlite3": "^X.X.X",
+    "typeorm": "^X.X.X"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^X.X.X",
+    "@nestjs/schematics": "^X.X.X",
+    "@nestjs/testing": "^X.X.X",
+    "@types/bcrypt": "^5.0.2",
+    "@types/passport-jwt": "^4.0.1",
+    "typescript": "^5.3.3"
+  }
+}
