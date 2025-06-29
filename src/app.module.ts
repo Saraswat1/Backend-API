@@ -4,23 +4,21 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { AppointmentsModule } from './appointments/appointments.module';
+import { AppController } from './app.controller';
 
 @Module({
 imports: [
-// Load environment variables globally
 ConfigModule.forRoot({ isGlobal: true }),
-  // Connect to SQLite (or switch to Postgres for production on Render)
 TypeOrmModule.forRoot({
-  type: 'sqlite',
-  database: process.env.DB_NAME || 'database.sqlite',
-  entities: [__dirname + '/**/*.entity{.ts,.js}'],
-  synchronize: true, // Disable this in production and use migrations
+type: 'sqlite',
+database: process.env.DB_NAME || 'database.sqlite',
+entities: [__dirname + '/**/*.entity{.ts,.js}'],
+synchronize: true,
 }),
-
-// Custom modules
 AuthModule,
 UsersModule,
 AppointmentsModule,
 ],
+controllers: [AppController], // 👈 Add this line
 })
 export class AppModule {}
