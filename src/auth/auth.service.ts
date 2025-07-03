@@ -26,8 +26,7 @@ if (existing) throw new UnauthorizedException('Email already registered');
 const hashed = await bcrypt.hash(dto.password, 10);
 const doctor = this.doctorRepo.create({ ...dto, password: hashed });
 await this.doctorRepo.save(doctor);
-
-return this.getTokens(doctor.id, doctor.email);
+return this.getTokens(doctor.id, doctor.email, 'doctor');
 }
 
 // Patient Signup
@@ -37,8 +36,7 @@ if (existing) throw new UnauthorizedException('Email already registered');
 const hashed = await bcrypt.hash(dto.password, 10);
 const patient = this.patientRepo.create({ ...dto, password: hashed });
 await this.patientRepo.save(patient);
-
-return this.getTokens(patient.id, patient.email);
+return this.getTokens(patient.id, patient.email, 'patient');
 }
 
 // Doctor Signin
@@ -47,7 +45,7 @@ const doctor = await this.doctorRepo.findOne({ where: { email: dto.email } });
 if (!doctor || !(await bcrypt.compare(dto.password, doctor.password))) {
 throw new UnauthorizedException('Invalid credentials');
 }
-return this.getTokens(doctor.id, doctor.email);
+return this.getTokens(doctor.id, doctor.email, 'doctor');
 }
 
 // Patient Signin
@@ -56,7 +54,7 @@ const patient = await this.patientRepo.findOne({ where: { email: dto.email } });
 if (!patient || !(await bcrypt.compare(dto.password, patient.password))) {
 throw new UnauthorizedException('Invalid credentials');
 }
-return this.getTokens(patient.id, patient.email);
+return this.getTokens(patient.id, patient.email, 'patient');
 }
 
 // Doctor Signout
@@ -83,16 +81,16 @@ throw new UnauthorizedException('Invalid role for refresh');
 }
 
 // Token generator
-private async getTokens(userId: number, email: string, role: 'doctor' | 'patient' = 'doctor') {
+private async getTokens(userId: number, email: string, role: 'doctor' | 'patient') {
 const accessToken = await this.jwtService.signAsync(
-{ sub: userId, email },
+{ sub: userId, email, role }, // ✅ include role
 {
 secret: this.config.get<string>('JWT_ACCESS_SECRET'),
 expiresIn: this.config.get<string>('ACCESS_TOKEN_EXPIRY', '3600s'),
 },
 );
 const refreshToken = await this.jwtService.signAsync(
-  { sub: userId, email },
+  { sub: userId, email, role }, // ✅ include role
   {
     secret: this.config.get<string>('JWT_REFRESH_SECRET'),
     expiresIn: this.config.get<string>('REFRESH_TOKEN_EXPIRY', '7d'),
@@ -110,4 +108,5 @@ return {
   refreshToken,
   message: `${role} tokens generated`,
 };
-}}
+}
+}

@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
-import { AppointmentsModule } from './appointments/appointments.module';
-import { AppController } from './app.controller';
+import { AppointmentsModule } from './appointments/appointments.module'; // 👈 Add this line
 
 @Module({
 imports: [
@@ -17,8 +16,7 @@ synchronize: true,
 }),
 AuthModule,
 UsersModule,
-AppointmentsModule,
+AppointmentsModule, // 👈 Add this line
 ],
-controllers: [AppController], // 👈 Add this line
 })
 export class AppModule {}
