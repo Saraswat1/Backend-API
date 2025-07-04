@@ -3,14 +3,17 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
-const app = await NestFactory.create(AppModule);
-app.useGlobalPipes(
-new ValidationPipe({
-whitelist: true, // removes properties not in DTO
-forbidNonWhitelisted: true, // throws if unknown properties present
-transform: true, // transforms payload to DTO class instances
-}),
-);
-await app.listen(3000);
+  const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
+
+  const port = process.env.PORT || 3000;
+  await app.listen(port);
+  console.log(`🚀 Server is running on port ${port}`);
 }
 bootstrap();
