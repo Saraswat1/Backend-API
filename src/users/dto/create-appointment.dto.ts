@@ -1,21 +1,24 @@
-import { IsString, IsInt, IsDateString, IsIn } from 'class-validator';
+import { IsInt, IsString, IsDateString } from 'class-validator';
 
 export class CreateAppointmentDto {
-@IsInt()
-doctor_id: number;
+  @IsInt()
+  doctor_id: number;
 
-@IsDateString()
-date: string;
+  @IsInt()
+  slot_id: number;  // ✅ add this if you want to use slot_id
 
-@IsString()
-weekday: string;
+  @IsDateString()
+  date: string;
 
-@IsString()
-session: string;
+  @IsString()
+  weekday: string;
 
-@IsString()
-start_time: string;
+  @IsString()
+  session: string;
 
-@IsString()
-end_time: string;
+  @IsString()
+  start_time: string;
+
+  @IsString()
+  end_time: string;
 }
